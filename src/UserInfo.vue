@@ -9,29 +9,30 @@
     <mt-button slot="right" @click="logout">注销</mt-button>
   </mt-header>
   <div class="head">
-
+  <img class="portrait" :src="$store.state.userInfo.portrait" />
+  <span>1234565</span>
   </div>
   <div class="body">
     <ul class="ullist">
       <li class="lilist">
-        <img class="icon" src="./images/下载.png" @click="addday">
+        <img class="icon" src="./assets/下载.png" @click="addday">
         <span class="name">积分</span><span class="number">
         <mt-badge size="small">30</mt-badge></span>
       </li>
       <li class="lilist">
-        <img class="icon" src="./images/下载.png" >
+        <img class="icon" src="./assets/下载.png" >
         <span class="name">奖金</span>
         <span class="number"><mt-badge size="small"type="error">30</mt-badge></span>
       </li>
       <li class="lilist">
-        <img class="icon" src="./images/下载.png" >
+        <img class="icon" src="./assets/下载.png" >
         <span class="name">假期</span>
         <span class="number"><mt-badge size="small" type="warning">30</mt-badge></span>
       </li>
     </ul>
   </div>
   <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" ref="loadmore">
-    <mt-cell  v-for="item in list" title="操作类型">{{ item }}</mt-cell>
+    <mt-cell  v-for="item in list"  :key="item.id" title="操作类型">{{ item }}</mt-cell>
   </mt-loadmore>
 </div>
 
@@ -44,7 +45,7 @@ export default {
   data(){
   	return {
       isLogouting: false,
-      list:['2016-01-01','2016-01-02','2016-01-03','2016-01-04']
+      list:[{id:1,data:'2016-01-01'},{id:1,data:'2016-01-02'},{id:1,data:'2016-01-03'},{id:1,data:'2016-01-04'}]
     }
   },
   components:{
@@ -108,11 +109,27 @@ export default {
 }
 .head{
   width: 100%;
-  height: 80px;
+  height: 100px;
   margin-top: 40px;
   background: #31c27c;/*绿色*/
   
 }
+
+.portrait{
+  width: 70px; 
+  height: 70px; 
+  overflow:hidden; 
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%; 
+  border-radius: 100%; 
+  background-color: #CCCCCC; 
+  margin-left: 15px;
+  border: 2px solid #2c3e50; 
+  /*display: flex;*/
+}
+
 .ullist{
   list-style: none;
   display: flex;
