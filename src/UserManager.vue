@@ -1,4 +1,4 @@
-//用户信息
+//用户管理
 
 <template>
 <div class="info">
@@ -9,30 +9,13 @@
     <mt-button slot="right" @click="logout">注销</mt-button>
   </mt-header>
   <div class="head">
-  <img class="portrait" :src="$store.state.userInfo.id" />
-  <span>{{this.$store.state.userInfo.username}}</span>
-  </div>
-  <div class="body">
-    <ul class="ullist">
-      <li class="lilist">
-        <img class="icon" src="./assets/下载.png" >
-        <span class="name">积分</span><span class="number">
-        <mt-badge size="small">{{this.$store.state.userInfo.count}}</mt-badge></span>
-      </li>
-      <li class="lilist">
-        <img class="icon" src="./assets/下载.png" @click="getReward(1)">
-        <span class="name">奖金</span>
-        <span class="number"><mt-badge size="small"type="error">30</mt-badge></span>
-      </li>
-      <li class="lilist">
-        <img class="icon" src="./assets/下载.png" @click="getReward(2)">
-        <span class="name">假期</span>
-        <span class="number"><mt-badge size="small" type="warning">30</mt-badge></span>
-      </li>
-    </ul>
+  <img class="portrait" :src="$store.state.userInfo.portrait" />
+  <span><strong>管理员</strong> {{this.$store.state.userInfo.username}}</span>
   </div>
   <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" ref="loadmore">
-    <mt-cell  v-for="item in list" label="描述信息" :key="item.id" title="操作">{{ item.content }}</mt-cell>
+    <mt-cell v-for="item in list"  :key="item.id" :title="item.username">
+    <mt-button type="primary" @click="editCount">{{ item.count }} 分</mt-button>
+    </mt-cell>
   </mt-loadmore>
 </div>
 
@@ -71,25 +54,8 @@ export default {
       	}
   	}
   },
-  created: function () {
-    var that =this;
-    let loginParam={
-        id:that.$store.state.userInfo.id
-      }
-    this.$ajax({
-        url: '/record',
-        method: 'post',
-        data:loginParam
-      }).then(function(response){
-        // console.log(response)
-        if(response.data.code == 1){
-          that.list=response.data.data;
-        }else{
-          alert(response.data.message)
-        }
-      }).catch(function(err){
-        console.log(err)
-      })
+  created:function(){
+    this.getUser();
   },
   methods: {
     //注销
@@ -111,41 +77,44 @@ export default {
       // this.allLoaded = true;
       this.$refs.loadmore.onBottomLoaded();
     },
-    getReward(type){
-      console.log(type);
-      var that =this;
-      console.log(that.$store.state.userInfo.id);
-      MessageBox.confirm('确定执行此操作?').then(action => {
-      let loginParam={
-        id:that.$store.state.userInfo.id,
-        type:type
-      };
-      this.$ajax({
-        url: '/count',
-        method: 'post',
-        data:loginParam
-      }).then(function(response){
-        // console.log(response)
-        if(response.data.code == 1){
-          that.list=response.data.data;
-        }else{
-          console.log(response.data.message)
-        }
-      }).catch(function(err){
-        console.log(err)
-      })
-      },()=>{
-        console.log("取消操作");
-      }
-      );
+    getUser(){
+        var that =this;
+        this.$ajax({
+          url: '/user',
+          method: 'post'
+        }).then(function(response){
+          // console.log(response)
+          if(response.data.code == 1){
+            that.list=response.data.data;
+          }else{
+            console.log(response.data.message)
+          }
+        }).catch(function(err){
+          console.log(err)
+        });
     },
-    getMoney(){
-      MessageBox.confirm('确定执行此操作?').then(action => {
-        console.log(2);
-      },()=>{
-        console.log(3);
-      }
-      );
+    editCount(){
+        var that =this;        
+        MessageBox.prompt('请输入积分',{inputPlaceholder: '请输入数字'}).then(({value,action}) => {
+            let loginParam={
+              id:that.$store.state.userInfo.id,
+              count:value
+            };
+            this.$ajax({
+              url: '/count',
+              method: 'post',
+              data:loginParam
+            }).then(function(response){
+              // console.log(response)
+              if(response.data.code == 1){
+                that.getUser();
+              }else{
+                console.log(response.data.message)
+              }
+            }).catch(function(err){
+              console.log(err)
+            });
+        },()=>{console.log("editCount")});
     }
   }
 }

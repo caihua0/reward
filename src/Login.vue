@@ -50,13 +50,43 @@ export default {
       // let password_sha ="123";
   		//需要想后端发送的登录参数
   		let loginParam = {
-  			account: this.account,
-  			password_sha
+  			username: 'yj',//this.account,
+  			password: 'yj'//password_sha
   		}
 
       //设置在登录状态
       this.isLoging = true;
+      var that =this;
+      this.$ajax({
+        url: '/login',
+        method: 'post',
+        // headers: {'Set-Cookie': 'XMLHttpRequest'},
+        data:loginParam
+      }).then(function(response){
+        // console.log("JSESSIONID:"+response.data.data.session);
+        that.isLoging = false;
+        if(response.data.code == 1){
+          let expireDays = 1000 * 60 * 60 * 24 * 15;
+          that.setCookie('JSESSIONID', response.data.data.session, expireDays);
+          // console.log(that.getCookie('JSESSIONID'));
+          that.$store.commit("updateUserInfo",response.data.data);
+          //登录成功后
+          if(that.$store.state.userInfo.level>0){
+            that.$router.push('/user_manager'); 
+          }else{
+            that.$router.push('/user_info'); 
+          }
+        }else{
+          alert(response.data.message)
+        }
+      }).catch(function(err){
+        console.log(err)
+      })
       
+      
+      
+
+
   		//请求后端,比如:
   		/*this.$http.post( 'example.com/login.php', {
   		param: loginParam).then((response) => {
@@ -72,14 +102,14 @@ export default {
   		*/
   	   
       //演示用
-  		setTimeout(()=>{
-        //登录状态15天后过期
-        let expireDays = 1000 * 60 * 60 * 24 * 15;
-  			this.setCookie('session','blablablablabla...', expireDays);
-        this.isLoging = false;
-        //登录成功后
-  			this.$router.push('/user_info/');
-  		},3000)
+  		// setTimeout(()=>{
+    //     //登录状态15天后过期
+    //     let expireDays = 1000 * 60 * 60 * 24 * 15;
+  		// 	this.setCookie('session','blablablablabla...', expireDays);
+    //     this.isLoging = false;
+    //     //登录成功后
+  		// 	this.$router.push('/user_info/');
+  		// },3000)
   	}
   }
 }
