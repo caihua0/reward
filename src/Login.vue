@@ -50,8 +50,8 @@ export default {
       // let password_sha ="123";
   		//需要想后端发送的登录参数
   		let loginParam = {
-  			username: 'yj',//this.account,
-  			password: 'yj'//password_sha
+  			username: '11',//this.account,
+  			password: '11'//password_sha
   		}
 
       //设置在登录状态
@@ -137,7 +137,7 @@ border-radius: 5px; -webkit-box-shadow:  0px 3px 16px -5px #070707; box-shadow: 
 .close{height:16px;width:16px;background-position:-13px 0;}
 .login-email{height:17px;width:29px;background-position:-117px 0;}
 .log-btns{padding: 15px 0; margin: 0 auto;}
-.log-btn{width:402px; display: block; text-align: left; line-height: 50px;margin:0 auto 15px; height:50px; color:#fff; font-size:13px;-webkit-border-radius: 5px; background-color: #3B5999;
+.log-btn{width:302px; display: block; text-align: left; line-height: 50px;margin:0 auto 15px; height:50px; color:#fff; font-size:13px;-webkit-border-radius: 5px; background-color: #3B5999;
 -moz-border-radius: 5px;
 -ms-border-radius: 5px;
 -o-border-radius: 5px;
@@ -152,7 +152,7 @@ position: relative;}
 .isloading{background: #d6d6d6}
 .log-btn .icons{margin-left: 30px; vertical-align: middle;}
 .log-btn .text{left: 95px; line-height: 50px; text-align: left; position: absolute;}
-.log-input{width: 370px;overflow: hidden; padding: 0 15px;font-size: 13px; border: 1px solid #EBEBEB; margin:0 auto 15px; height: 48px; line-height: 48px; -webkit-border-radius: 5px;
+.log-input{width: 270px;overflow: hidden; padding: 0 15px;font-size: 13px; border: 1px solid #EBEBEB; margin:0 auto 15px; height: 48px; line-height: 48px; -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 -ms-border-radius: 5px;
 -o-border-radius: 5px;

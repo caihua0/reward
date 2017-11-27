@@ -9,8 +9,15 @@
     <mt-button slot="right" @click="logout">注销</mt-button>
   </mt-header>
   <div class="head">
-  <img class="portrait" :src="$store.state.userInfo.id" />
-  <span>{{this.$store.state.userInfo.username}}</span>
+  <div>
+    <img class="portrait" :src="$store.state.userInfo.id" />
+    <span>{{this.$store.state.userInfo.username}}</span>
+  </div>
+  <div class="operate">
+    <mt-button class="operatebut" plain size="small" >小抽奖</mt-button>
+    <mt-button class="operatebut" plain size="small" >大抽奖</mt-button>
+    <mt-button class="operatebut" plain size="small" >固定金额</mt-button>
+  </div>
   </div>
   <div class="body">
     <ul class="ullist">
@@ -81,11 +88,10 @@ export default {
         method: 'post',
         data:loginParam
       }).then(function(response){
-        // console.log(response)
         if(response.data.code == 1){
           that.list=response.data.data;
         }else{
-          alert(response.data.message)
+          // alert(response.data.message);
         }
       }).catch(function(err){
         console.log(err)
@@ -157,9 +163,9 @@ export default {
 }
 .head{
   width: 100%;
-  height: 100px;
+  height: 120px;
   margin-top: 40px;
-  background: #31c27c;/*绿色*/
+  background: #31c27c;
   
 }
 
@@ -173,10 +179,19 @@ export default {
   -o-border-radius: 100%; 
   border-radius: 100%; 
   background-color: #CCCCCC; 
+  margin-top: 10px;
   margin-left: 15px;
   border: 2px solid #2c3e50; 
   /*display: flex;*/
 }
+
+.operate{
+  padding: 6px;
+  text-align: right;
+  background: #31c27c;/*绿色*/
+}
+
+
 
 .ullist{
   list-style: none;
